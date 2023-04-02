@@ -4,37 +4,26 @@ import java.net.*;
 
 public class dsClient {
     public static void main(String[] args) {
-        try {
-            Socket s = new Socket("127.0.0.1", 50000);
+         Socket s = new Socket("127.0.0.1", 50000);
+        BufferedReader dis = new BufferedReader(new InputStreamReader(s.getInputStream()));
+        PrintWriter dos = new PrintWriter(s.getOutputStream(), true);
+        
+        dos.println("HELO");
+        dis.readLine();
+        dos.println("AUTH " + System.getProperty("user.name"));
+        dis.readLine();
+        dos.println("REDY");
 
-            DataOutputStream dos = new DataOutputStream(s.getOutputStream());
-            BufferedReader dis = new BufferedReader(new InputStreamReader(s.getInputStream()));
+        String inputLine;
+        while ((inputLine = dis.readLine()) != null) {
+            System.out.println("Input line: " + inputLine);
+            if (inputLine.startsWith("JOBN")) {
+                String[] jobDetails = inputLine.split(" ");
+                int jobId = Integer.parseInt(jobDetails[2]);
+                int jobCores = Integer.parseInt(jobDetails[4]);
+                int jobMemory = Integer.parseInt(jobDetails[5]);
+                int jobDisk = Integer.parseInt(jobDetails[6]);
 
-            dos.write(("HELO" + "\n").getBytes());
-            String str = (String)dis.readLine();
-            System.out.println("message= " + str);//added
-            
-            dos.write(("AUTH " + "mingxinyang"+ "\n").getBytes());
-            str = dis.readLine();
-
-
-             int numServers = Integer.parseInt(serverDetails[1]);
-                    String type = "";
-                    int maxAvail = 0;
-             int n=0; //n=j
-            while(!str.contains("NONE")){
-                dos.write(("REDY"+"\n").getBytes());
-                str = dis.readLine();
-
-               
-
-                if (str.startsWith("JOBN")) {
-                    String[] jobDetails = str.split("\\s+");
-
-                    // Get the largest server type
-                    dos.write(("GETS All " + jobDetails[4] + " " + jobDetails[5] + " " + jobDetails[6] + "\n").getBytes());
-                    str = dis.readLine();
-                    String[] serverDetails = str.split("\\s+");
                    
 
                     for (int i = 0; i < numServers; i++) {
