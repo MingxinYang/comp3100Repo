@@ -40,23 +40,31 @@ public class dsClient {
                     dos.write(("OK\n").getBytes());
                     str = dis.readLine();
 
-                    // Schedule the job
-                    String schdMsg = "SCHD " + jobDetails[2] + " " + serverType + " " + jobDetails[4] + " " + jobDetails[5] + "\n";
-                    dos.write((schdMsg).getBytes());
-                    str = dis.readLine();
+                    //schedule it when the msg ==JOBN
+                if(lastMsg.contains("JOBN")){
+                    dataOutput.write(("SCHD " +jobId+ " "+serverType+" "+n +"\n").getBytes());
+                    str = dataInput.readLine();
+                    System.out.println("Server: " +str);
+                    n++;
+
+                    if(n >= numServers){//when n higher than the NO. servers
+                        n = 0;
+                    }
                 }
             }
 
-            dos.write(("QUIT"+"\n").getBytes());
-            str = dis.readLine();
+            // ds-server sends QUIT and receive QUIT
+            dataOutput.write(("QUIT\n").getBytes());
+            str = dataInput.readLine();
+            System.out.println("Server: " + str);
 
-            dis.close();
-            dos.close();
+            // close the socket, I/O stream
+            dataInput.close();
+            dataOutput.close();
             s.close();
+
         } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
+            System.out.println(e);
         }
-    }
-}
+   }
 }
