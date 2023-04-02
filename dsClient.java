@@ -1,6 +1,6 @@
 import java.io.*;
 import java.net.*;
-import java.util.concurrent.TimeUnit;
+
 
 public class dsClient {
     public static void main(String[] args) {
@@ -11,18 +11,22 @@ public class dsClient {
             BufferedReader dis = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
             dos.write(("HELO" + "\n").getBytes());
-            String str = dis.readLine();
-            String username = System.getProperty("user.name");
-            dos.write(("AUTH " + username + "\n").getBytes());
+            String str = (String)dis.readLine();
+            System.out.println("message= " + str);//added
+            
+            dos.write(("AUTH " + "mingxinyang"+ "\n").getBytes());
             str = dis.readLine();
 
-            while (true) {
+
+             int numServers = Integer.parseInt(serverDetails[1]);
+                    String type = "";
+                    int maxAvail = 0;
+             int n=0; //n=j
+            while(!str.contains("NONE")){
                 dos.write(("REDY"+"\n").getBytes());
                 str = dis.readLine();
 
-                if (str.equals("NONE")) {
-                    break;
-                }
+               
 
                 if (str.startsWith("JOBN")) {
                     String[] jobDetails = str.split("\\s+");
@@ -31,9 +35,7 @@ public class dsClient {
                     dos.write(("GETS All " + jobDetails[4] + " " + jobDetails[5] + " " + jobDetails[6] + "\n").getBytes());
                     str = dis.readLine();
                     String[] serverDetails = str.split("\\s+");
-                    int numServers = Integer.parseInt(serverDetails[1]);
-                    String serverType = "";
-                    int maxAvail = 0;
+                   
 
                     for (int i = 0; i < numServers; i++) {
                     if(str!=null){
@@ -68,4 +70,4 @@ public class dsClient {
         }
     }
 }
-
+}
