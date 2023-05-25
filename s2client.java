@@ -20,37 +20,54 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
  class Job {
 
-    /**
-     * command for the current task
-     */
-    String jobCmd = "";
-    /**
-     * Information about task submissions
-     */
-    int submitTime;
-    int id;
-    int estRunTime;
-    int cores;
-    int memory;
+ 
+    
+//task sub info
+    int subTime;
+    int IDs;
+    int RTime;
+    int coreNum;
+    int memSize
     int disk;
-
-    /**
-     * Initialize task-related properties according to index subscripts
-     */
+    String jobCmd = "";
+   // Initialize the properties of job-data
     public static Job parseSimpleJob(String msg) {
         String[] info = msg.trim().split("\\s+");
         Job job = new Job();
         try {
             job.jobCmd = info[0];
-            job.submitTime = Integer.parseInt(info[1]);
-            job.id = Integer.parseInt(info[2]);
-            job.estRunTime = Integer.parseInt(info[3]);
-            job.cores = Integer.parseInt(info[4]);
-            job.memory = Integer.parseInt(info[5]);
+            job.subTime = Integer.parseInt(info[1]);
+            job.IDs = Integer.parseInt(info[2]);
+            job.RTime= Integer.parseInt(info[3]);
+            job.coreNum = Integer.parseInt(info[4]);
+            job.memSize = Integer.parseInt(info[5]);
             job.disk = Integer.parseInt(info[6]);
         } catch (Exception e) {
             // ignore exception
         }
         return job;
     }
+
+
+    public boolean isNone() {
+        return jobCmd.equals(Command.NONE.getName());
+    }
+
+    public boolean isJCPL() {
+        return jobCmd.equals(Command.JCPL.getName());
+    }
+
+
+    public String toString() {
+        return "Job{" +
+            "jobCmd='" + jobCmd + '\'' +
+            ", subTime=" + subTime +
+            ", IDs=" + IDs +
+            ", RTime=" + RTime +
+            ", coreNum=" + coreNum +
+            ", memSize=" + memSize +
+            ", disk=" + disk +
+            '}';
+    }
+}
 
