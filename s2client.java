@@ -21,7 +21,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  class Job {
 
  
-    
+    String basicInfo = "";
 //task sub info
     int subTime;
     int IDs;
@@ -29,13 +29,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
     int coreNum;
     int memSize
     int disk;
-    String jobCmd = "";
+
    // Initialize the properties of job-data
     public static Job parseSimpleJob(String msg) {
         String[] info = msg.trim().split("\\s+");
         Job job = new Job();
         try {
-            job.jobCmd = info[0];
+            job.basicInfo = info[0];
             job.subTime = Integer.parseInt(info[1]);
             job.IDs = Integer.parseInt(info[2]);
             job.RTime= Integer.parseInt(info[3]);
@@ -50,17 +50,17 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 
     public boolean isNone() {
-        return jobCmd.equals(Command.NONE.getName());
+        return basicInfo.equals(Command.NONE.getName());
     }
 
     public boolean isJCPL() {
-        return jobCmd.equals(Command.JCPL.getName());
+        return basicInfo.equals(Command.JCPL.getName());
     }
 
 
     public String toString() {
         return "Job{" +
-            "jobCmd='" + jobCmd + '\'' +
+            "basicInfo='" + basicInfo + '\'' +
             ", subTime=" + subTime +
             ", IDs=" + IDs +
             ", RTime=" + RTime +
@@ -70,4 +70,3 @@ import javax.xml.parsers.DocumentBuilderFactory;
             '}';
     }
 }
-
