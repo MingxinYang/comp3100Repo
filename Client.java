@@ -114,7 +114,13 @@ class Server {
     }
 
     public boolean meetJobLevel(Job job) {
-        return memSize >= job.memSize && coreNum >= job.coreNum && disk >= job.disk;
+        if (memSize - job.memSize < 0) {
+            return false;
+        }
+        if (coreNum - job.coreNum < 0) {
+            return false;
+        }
+        return disk - job.disk >= 0;
     }
 
     public String toString() {
@@ -146,27 +152,6 @@ class Server {
         } catch (Exception e) {
             e.printStackTrace();
             return;
-        }
-    }
-}
-
-enum ServerState {
-    Inactive, Booting, Idle, Active, Unavailable;
-
-    static ServerState parse(String state) {
-        switch (state) {
-            case "inactive":
-                return Inactive;
-            case "booting":
-                return Booting;
-            case "idle":
-                return Idle;
-            case "active":
-                return Active;
-            case "unavailable":
-                return Unavailable;
-            default:
-                throw new RuntimeException("Unsupported server state");
         }
     }
 }
