@@ -6,10 +6,10 @@ import org.w3c.dom.*;
 import java.util.stream.Collectors;
 
 class Job {
-    String basicInfor = "";
+    String basicInfor = ""; // Basic information about the job
     int subTime;
-    int IDs;
-    int RTime;
+    int IDs; // Job ID
+    int RTime; // Remaining time
     int coreNum;
     int memSize;
     int disk;
@@ -18,13 +18,13 @@ class Job {
         String[] info = msg.trim().split("\\s+");
         Job job = new Job();
         try {
-            job.basicInfor = info[0];
-            job.subTime = Integer.parseInt(info[1]);
-            job.IDs = Integer.parseInt(info[2]);
-            job.RTime = Integer.parseInt(info[3]);
-            job.coreNum = Integer.parseInt(info[4]);
-            job.memSize = Integer.parseInt(info[5]);
-            job.disk = Integer.parseInt(info[6]);
+            job.basicInfor = info[0]; // Extract basic information
+            job.subTime = Integer.parseInt(info[1]); // Submission time
+            job.IDs = Integer.parseInt(info[2]); // Job ID
+            job.RTime = Integer.parseInt(info[3]); // Remaining time
+            job.coreNum = Integer.parseInt(info[4]); // Number of CPU cores required
+            job.memSize = Integer.parseInt(info[5]); // Memory size thatrequired
+            job.disk = Integer.parseInt(info[6]); // Disk space that is required
         } catch (Exception e) {
             // ignroe exception
         }
@@ -32,16 +32,16 @@ class Job {
     }
 
     public boolean isNone() {
-        return basicInfor.equals(Command.NONE.getName());
+        return basicInfor.equals(Command.NONE.getName()); // Check if the job is none
     }
 
     public boolean isJCPL() {
-        return basicInfor.equals(Command.JCPL.getName());
+        return basicInfor.equals(Command.JCPL.getName()); // Check if the job is JCPL
     }
 
     public String toString() {
         return "Jb{" +
-                "basicInfo='" + basicInfor + '\'' +
+                "basicInfo='" + basicInfor + '\'' + // Print basic information
                 ", subTime=" + subTime +
                 ", IDs=" + IDs +
                 ", RTime=" + RTime +
@@ -67,18 +67,18 @@ enum JobState {
 }
 
 class Server {
-    String type;
-    int IDs;
-    ServerState state;
+    String type; // Type of server
+    int IDs; // Server ID
+    ServerState state; // Current state of the server
     int curStartTime;
     int coreNum;
     int memSize;
     int disk;
-    int wJobs;
-    int rJobs;
-    int bootTime;
-    int estTime;
-    float hourlyRate;
+    int wJobs; // Number of waiting jobs
+    int rJobs; // Number of running jobs
+    int bootTime; // Bootup time
+    int estTime; // Estimated time
+    float hourlyRate; // Hourly rate
     static Map<String, Integer> bootTimeMap = null;
     static Map<String, Float> hourlyRateMap = null;
     static final int SIMPLE_SERVER_FIELDS = 9;
@@ -93,20 +93,20 @@ class Server {
         String[] info = msg.trim().split("\\s+");
         Server server = new Server();
         if (info.length < SIMPLE_SERVER_FIELDS) {
-            throw new RuntimeException("NOt Enought server properties");
+            throw new RuntimeException("NOt Enought server properties"); // Not enough server properties
         }
         try {
-            server.type = info[0];
-            server.IDs = Integer.parseInt(info[1]);
-            server.state = ServerState.parse(info[2]);
-            server.curStartTime = Integer.parseInt(info[3]);
-            server.coreNum = Integer.parseInt(info[4]);
-            server.memSize = Integer.parseInt(info[5]);
-            server.disk = Integer.parseInt(info[6]);
-            server.wJobs = Integer.parseInt(info[7]);
-            server.rJobs = Integer.parseInt(info[8]);
-            server.bootTime = bootTimeMap.get(server.type);
-            server.hourlyRate = hourlyRateMap.get(server.type);
+            server.type = info[0]; // Server type
+            server.IDs = Integer.parseInt(info[1]); // Server ID
+            server.state = ServerState.parse(info[2]); // Server state
+            server.curStartTime = Integer.parseInt(info[3]); // Current start time
+            server.coreNum = Integer.parseInt(info[4]); // Number of CPU cores
+            server.memSize = Integer.parseInt(info[5]); // Memory size
+            server.disk = Integer.parseInt(info[6]); // Disk space
+            server.wJobs = Integer.parseInt(info[7]); // Number of waiting jobs
+            server.rJobs = Integer.parseInt(info[8]); // Number of running jobs
+            server.bootTime = bootTimeMap.get(server.type); // Bootup time
+            server.hourlyRate = hourlyRateMap.get(server.type); // Hourly rate
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,9 +142,9 @@ class Server {
                     if (attributes == null) {
                         continue;
                     }
-                    String type = attributes.getNamedItem("type").getNodeValue();
-                    int bootTime = Integer.parseInt(attributes.getNamedItem("bootupTime").getNodeValue());
-                    float hourlyRate = Float.parseFloat(attributes.getNamedItem("hourlyRate").getNodeValue());
+                    String type = attributes.getNamedItem("type").getNodeValue(); // Server type
+                    int bootTime = Integer.parseInt(attributes.getNamedItem("bootupTime").getNodeValue()); // Bootup time
+                    float hourlyRate = Float.parseFloat(attributes.getNamedItem("hourlyRate").getNodeValue()); // Hourly rate
                     bootTimeMap.put(type, bootTime);
                     hourlyRateMap.put(type, hourlyRate);
                 }
