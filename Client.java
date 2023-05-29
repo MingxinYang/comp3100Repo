@@ -383,14 +383,13 @@ enum Command {
     MIGJ("MIGJ"), KILJ("KILJ"), TERM("TERM"),
     ERR("ERR"),
     OK("OK");
-    private final String name;
+    private final String GIven;
 
-    Command(String schd) {
-        name = schd;
+    Command(String Scheduled) {
+        GIven = Scheduled;
     }
 
     public String getName() {
-        return name;
+        return GIven;
     }
 }
-
