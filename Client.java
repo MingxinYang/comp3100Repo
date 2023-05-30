@@ -155,7 +155,7 @@ class Server {
         }
     }
 }
-
+//This function will parse server states and return the corresponding state
 enum ServerState {
     Inactive, Booting, Idle, Active, Unavailable;
 
@@ -165,7 +165,8 @@ enum ServerState {
                 return Inactive;
             case "booting":
                 return Booting;
-            case "idle":
+                //when server not processing jobs                
+            case "idle":            
                 return Idle;
             case "active":
                 return Active;
@@ -179,7 +180,7 @@ enum ServerState {
 
 interface Scheduler {
     void schedule() throws IOException;
-    void scheduleOneJb(Job jb, Server server) throws IOException;
+    void scheduleOneJb(Job jb, Server server) throws IOException;//scheduling job one at a time
 }
 
 public class Client implements Scheduler {
